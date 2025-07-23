@@ -2,6 +2,7 @@ import os
 from rich import print
 import json
 from tracker import logger
+from tracker import utils
 from datetime import datetime
 
 TIMER_TMP_FILE= ".lc_tmptimer.json"
@@ -31,6 +32,7 @@ def endTimer(solved, difficulty, tags, notes):
     end_time = datetime.now()
     duration = end_time - start_time
     os.remove(TIMER_TMP_FILE)
-    logger.log_to_csv(data['problemID'], start_time.strftime("%H:%M:%S"), end_time.strftime("%H:%M:%S"), duration, solved, difficulty, tags, notes)
+    data_dict = utils.create_dict(data['problemID'], start_time.strftime("%H:%M:%S"), end_time.strftime("%H:%M:%S"), duration, solved, difficulty, tags, notes)
+    logger.log_to_csv(data_dict)
     print(f"[yellow]Timer has been ended for {data['problemID']}, here are some stats,\nStart Time: {start_time.strftime("%H:%M:%S")}\nEnd Time: {end_time.strftime("%H:%M:%S")}\nDuration: {duration}[/yellow]")
     return
